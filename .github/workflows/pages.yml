@@ -3,6 +3,7 @@ name: Deploy NeoCat Web Tool
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: read
