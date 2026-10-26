@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>M.2 B-Key Pin Mapping Matrix</title>
+  <style>
+    :root {
+      --bg-base: #0c1017;
+      --bg-panel: #131924;
+      --bg-header: #1a2232;
+      --bg-row-hover: #1f2a3d;
+      --border-color: #273347;
+      --text-main: #f1f5f9;
+      --text-muted: #8c9cb3;
+      --accent: #2563eb;
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.2);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.2);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg-base);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      padding: 20px 24px;
+    }
+
+    .header-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .title-area h1 {
+      font-size: 19px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .badge-bkey {
+      background: #b45309;
+      color: #fef3c7;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 5px;
+      font-weight: 700;
+    }
+
+    .actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+    button {
+      background: var(--bg-header);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s;
+    }
+    button:hover { background: #28344b; }
+    button.btn-primary { background: #059669; border-color: #059669; }
+    button.btn-primary:hover { background: #047857; }
+    button.btn-accent { background: var(--accent); border-color: var(--accent); }
+    button.btn-accent:hover { background: #1d4ed8; }
+
+    #jsonFileInput { display: none; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-color); margin-bottom: 14px; }
+    .tab-btn {
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-muted);
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .tab-btn.active {
+      color: #60a5fa;
+      border-bottom-color: #60a5fa;
+    }
+
+    /* Table Container */
+    .table-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      overflow-x: auto;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      table-layout: fixed;
+    }
+
+    th {
+      background: var(--bg-header);
+      color: var(--text-muted);
+      text-align: left;
+      padding: 8px 8px;
+      font-weight: 600;
+      border-bottom: 1px solid var(--border-color);
+      white-space: nowrap;
+      position: relative;
+      user-select: none;
+    }
+
+    .th-mcu-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+    }
+    .btn-del-mcu {
+      background: transparent;
+      border: none;
+      color: #f87171;
+      padding: 0 4px;
+      font-size: 11px;
+      cursor: pointer;
+      opacity: 0.7;
+    }
+    .btn-del-mcu:hover { opacity: 1; background: rgba(239, 68, 68, 0.2); border-radius: 3px; }
+
+    .resizer {
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100%;
+      width: 4px;
+      background: transparent;
+      cursor: col-resize;
+      user-select: none;
+    }
+    .resizer:hover, .resizing { background-color: #3b82f6; }
+
+    td {
+      padding: 6px 8px;
+      border-bottom: 1px solid var(--border-color);
+      vertical-align: middle;
+      min-height: 44px;
+    }
+
+    tr:hover { background: var(--bg-row-hover); }
+
+    /* Key Cutout Row */
+    tr.notch-row { background: rgba(180, 83, 9, 0.12); }
+    tr.notch-row td { color: #f59e0b; font-weight: 500; }
+
+    /* Compact Pin Inputs */
+    input.pin-input {
+      width: 72px;
+      background: #0d121a;
+      border: 1px solid #242e40;
+      color: var(--text-main);
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-family: monospace;
+      font-weight: 600;
+      text-align: center;
+    }
+    input.pin-input:focus {
+      background: #080b11;
+      border-color: #3b82f6;
+      outline: none;
+    }
+    input.pin-input.duplicate-conflict {
+      background: var(--danger-bg) !important;
+      border-color: var(--danger) !important;
+      color: #fca5a5 !important;
+    }
+
+    /* MCU Compound Flex Cell */
+    .mcu-cell-container {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      width: 100%;
+    }
+
+    /* Multi-Function Pill Box */
+    .func-pill-box {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3px;
+      align-items: center;
+      min-height: 28px;
+      background: #0d121a;
+      border: 1px solid #242e40;
+      border-radius: 5px;
+      padding: 3px 5px;
+      flex: 1;
+    }
+
+    .func-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      font-size: 10.5px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .func-pill .pill-del {
+      cursor: pointer;
+      font-weight: bold;
+      opacity: 0.6;
+      margin-left: 1px;
+    }
+    .func-pill .pill-del:hover { opacity: 1; color: #fff; }
+
+    /* Inline Add Select Dropdown */
+    .func-add-select {
+      background: #192231;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      border-radius: 8px;
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 4px;
+      cursor: pointer;
+      outline: none;
+    }
+    .func-add-select:hover { color: #f1f5f9; border-color: #3b82f6; }
+
+    /* Function Color Schemes */
+    .func-pwr { background: #b91c1c; color: #fee2e2; }
+    .func-gnd { background: #000000; color: #f9fafb; border: 1px solid #374151; }
+    .func-comm { background: #065f46; color: #a7f3d0; }
+    .func-io { background: #15803d; color: #bbf7d0; }
+    .func-analog { background: #047857; color: #d1fae5; }
+    .func-ctrl { background: #374151; color: #e5e7eb; }
+    .func-na { background: #1e2430; color: #64748b; font-style: italic; }
+    .func-notch { background: #78350f; color: #fde68a; font-weight: 600; padding: 3px 8px; border-radius: 8px; font-size: 11px; }
+
+    /* Signal & Status Select Tags */
+    select.tag-select {
+      border: 1px solid transparent;
+      padding: 4px 6px;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: 11px;
+      cursor: pointer;
+      outline: none;
+      width: 100%;
+      text-align: center;
+    }
+
+    .tag-GND { background: #000000; color: #f9fafb; border-color: #374151 !important; }
+    .tag-Power { background: #b91c1c; color: #fee2e2; }
+    .tag-Digital { background: #065f46; color: #a7f3d0; }
+    .tag-Analog { background: #047857; color: #d1fae5; }
+    .tag-High-Speed { background: #064e3b; color: #6ee7b7; }
+    .tag-Low-Speed { background: #059669; color: #ecfdf5; }
+    .tag-Control { background: #15803d; color: #bbf7d0; }
+    .tag-Debug { background: #166534; color: #dcfce7; }
+    .tag-Notch { background: #78350f; color: #fde68a; }
+    .tag-none { background: #1f2937; color: #9ca3af; }
+
+    .tag-status-Mapped { background: #065f46; color: #a7f3d0; }
+    .tag-status-Pending { background: #854d0e; color: #fef08a; }
+    .tag-status-Reserved { background: #374151; color: #e5e7eb; }
+    .tag-status-NC { background: #1f2937; color: #9ca3af; }
+    .tag-status-KeyCutout { background: #78350f; color: #fde68a; }
+
+    /* Compact Conflict & Remarks Inputs */
+    .conflict-pill {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 5px;
+      border-radius: 4px;
+      white-space: nowrap;
+      text-align: center;
+      display: inline-block;
+      min-width: 32px;
+    }
+    .conflict-pill.ok { background: var(--success-bg); color: var(--success); }
+    .conflict-pill.err { background: var(--danger-bg); color: var(--danger); }
+    .conflict-pill.notch { color: var(--text-muted); }
+
+    input.text-note {
+      width: 100%;
+      background: #0d121a;
+      border: 1px solid #242e40;
+      color: var(--text-main);
+      padding: 4px 7px;
+      border-radius: 4px;
+      font-size: 11.5px;
+    }
+    input.text-note:focus {
+      background: #080b11;
+      border-color: #3b82f6;
+      outline: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header-bar">
+    <div class="title-area">
+      <h1>M.2 B-Key 67-Pin Mapping <span class="badge-bkey" id="profileBadge">Profile: Default</span></h1>
+    </div>
+    
+    <div class="actions">
+      <input type="file" id="jsonFileInput" accept=".json" onchange="handleProfileFile(event)">
+      <button onclick="document.getElementById('jsonFileInput').click()">📂 Load Profile</button>
+      <button class="btn-primary" onclick="saveProfile()">💾 Save Profile</button>
+      <button class="btn-accent" onclick="promptAddMCU()">➕ Add MCU</button>
+      <button onclick="exportCSV()">📥 Export CSV</button>
+      <button onclick="resetTemplate()">↺ Clear</button>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchSide('top')">Top Side (Odd Pins 1–75)</button>
+    <button class="tab-btn" onclick="switchSide('bottom')">Bottom Side (Even Pins 2–74)</button>
+  </div>
+
+  <div class="table-card">
+    <table id="pinTable">
+      <thead id="tableHead"></thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const NOTCH_PINS = [12, 13, 14, 15, 16, 17, 18, 19];
+    let currentSide = 'top';
+
+    const SIGNAL_TYPES = ["", "GND", "Power", "Digital", "Analog", "High-Speed", "Low-Speed", "Control", "Debug", "Notch"];
+    const STATUS_TYPES = ["Pending", "Mapped", "Reserved", "NC", "Key Cutout"];
+
+    const FUNCTION_GROUPS = {
+      "Special": ["N.C.", "N.A."],
+      "Power & Ground": ["+3.3V", "+5V", "VBAT", "VDDA", "VREF+", "GND"],
+      "GPIO & Control": ["GPIO", "GPIO_IN", "GPIO_OUT", "GPIO_IRQ", "RESET", "BOOT", "PWR_EN", "STATUS_LED"],
+      "UART": ["UART0_TX", "UART0_RX", "UART0_CTS", "UART0_RTS", "UART1_TX", "UART1_RX", "UART1_CTS", "UART1_RTS", "UART2_TX", "UART2_RX"],
+      "SPI": ["SPI0_SCK", "SPI0_MOSI", "SPI0_MISO", "SPI0_CS0", "SPI0_CS1", "SPI1_SCK", "SPI1_MOSI", "SPI1_MISO", "SPI1_CS0"],
+      "I2C": ["I2C0_SCL", "I2C0_SDA", "I2C1_SCL", "I2C1_SDA", "I2C2_SCL", "I2C2_SDA"],
+      "CAN / FDCAN": ["CAN_TX", "CAN_RX", "CAN_H", "CAN_L"],
+      "USB": ["USB_DP", "USB_DM", "USB_ID", "VBUS_SENSE"],
+      "I2S Audio": ["I2S_BCLK", "I2S_LRCLK", "I2S_DIN", "I2S_DOUT", "I2S_MCLK"],
+      "PWM & Timers": ["PWM0", "PWM1", "PWM2", "PWM3", "PWM4", "PWM5", "TIM_CH1", "TIM_CH2", "TIM_CH3", "TIM_CH4", "QENC_A", "QENC_B"],
+      "Analog": ["ADC0", "ADC1", "ADC2", "ADC3", "ADC4", "ADC5", "ADC6", "ADC7", "DAC0", "DAC1", "VREF+", "VREF-"],
+      "Debug": ["SWDIO", "SWCLK", "SWO", "JTAG_TMS", "JTAG_TCK", "JTAG_TDI", "JTAG_TDO"]
+    };
+
+    function getPillClass(fn) {
+      if (!fn) return '';
+      if (fn === 'N.C.' || fn === 'N.A.') return 'func-na';
+      if (fn === 'GND') return 'func-gnd';
+      if (fn.includes('V') || fn.includes('3.3') || fn.includes('5V') || fn.includes('BAT')) return 'func-pwr';
+      if (fn.startsWith('UART') || fn.startsWith('SPI') || fn.startsWith('I2C') || fn.startsWith('CAN') || fn.startsWith('USB') || fn.startsWith('I2S')) return 'func-comm';
+      if (fn.startsWith('GPIO') || fn.startsWith('PWM') || fn.startsWith('TIM') || fn.startsWith('QENC') || fn === 'STATUS_LED') return 'func-io';
+      if (fn.startsWith('ADC') || fn.startsWith('DAC') || fn.includes('REF') || fn === 'VDDA') return 'func-analog';
+      if (fn.includes('SWD') || fn.includes('JTAG') || fn === 'SWO' || fn === 'RESET' || fn === 'BOOT' || fn === 'PWR_EN') return 'func-ctrl';
+      return 'func-comm';
+    }
+    function getAutoSignalType(fn) {
+      if (!fn) return '';
+      if (fn === 'GND') return 'GND';
+      if (fn.includes('V') || fn.includes('3.3') || fn.includes('5V') || fn.includes('BAT')) return 'Power';
+      if (fn.startsWith('SPI') || fn.startsWith('USB') || fn.startsWith('CAN') || fn.startsWith('I2S')) return 'High-Speed';
+      if (fn.startsWith('UART') || fn.startsWith('I2C')) return 'Low-Speed';
+      if (fn.startsWith('ADC') || fn.startsWith('DAC') || fn.includes('REF') || fn === 'VDDA') return 'Analog';
+      if (fn.startsWith('GPIO') || fn.startsWith('PWM') || fn.startsWith('TIM') || fn.startsWith('QENC') || fn === 'STATUS_LED') return 'Digital';
+      if (fn.includes('SWD') || fn.includes('JTAG') || fn === 'SWO') return 'Debug';
+      if (fn === 'RESET' || fn === 'BOOT' || fn === 'PWR_EN') return 'Control';
+      return '';
+    }
+
+    function createDefaultState() {
+      const pins = {};
+      for (let i = 1; i <= 75; i++) {
+        const isNotch = NOTCH_PINS.includes(i);
+        pins[i] = {
+          pin: i,
+          name: (i % 2 === 1 ? 'Top' : 'Bottom') + i,
+          side: i % 2 === 1 ? 'top' : 'bottom',
+          signal: isNotch ? 'Notch' : '',
+          mcus: {
+            mcu_rp2350b: { pin: '', funcs: [] },
+            mcu_stm32h562: { pin: '', funcs: [] }
+          },
+          remarkNotes: isNotch ? 'Mechanical B-Key Cutout' : '',
+          status: isNotch ? 'Key Cutout' : 'Pending'
+        };
+      }
+      return {
+        profileName: 'Default',
+        mcuList: [
+          { id: 'mcu_rp2350b', label: 'RP2350B (MCU1)' },
+          { id: 'mcu_stm32h562', label: 'STM32H562 (MCU2)' }
+        ],
+        pins: pins
+      };
+    }
+
+    let activeState = createDefaultState();
+
+    function saveProfile() {
+      const currentName = activeState.profileName || "Blade_Profile";
+      const name = prompt("Enter a name for this profile:", currentName);
+      if (!name || !name.trim()) return;
+
+      activeState.profileName = name.trim();
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(activeState, null, 2));
+      const dlAnchor = document.createElement('a');
+      dlAnchor.setAttribute("href", dataStr);
+      dlAnchor.setAttribute("download", activeState.profileName.replace(/[^a-zA-Z0-9_-]/g, '_') + "_Profile.json");
+      document.body.appendChild(dlAnchor);
+      dlAnchor.click();
+      dlAnchor.remove();
+      render();
+    }
+
+    function handleProfileFile(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const parsed = JSON.parse(e.target.result);
+          if (parsed && parsed.pins && parsed.mcuList) {
+            // Backward-compatibility: upgrade flat string pin definitions if loading older profile
+            for (let i = 1; i <= 75; i++) {
+              const p = parsed.pins[i];
+              if (p && p.mcus) {
+                parsed.mcuList.forEach(m => {
+                  if (typeof p.mcus[m.id] === 'string') {
+                    p.mcus[m.id] = { pin: p.mcus[m.id], funcs: [] };
+                  }
+                });
+              }
+              if (p && p.remark && !p.remarkNotes) {
+                p.remarkNotes = (p.remark + ' ' + (p.conflictNote || '')).trim();
+              }
+            }
+            activeState = parsed;
+            render();
+            alert(`✅ Loaded Profile: "${activeState.profileName || 'Default'}"`);
+          } else {
+            alert("Invalid profile file: missing pin mapping structure.");
+          }
+        } catch (err) {
+          alert("Error reading profile: " + err.message);
+        }
+        event.target.value = '';
+      };
+      reader.readAsText(file);
+    }
+
+    function promptAddMCU() {
+      const mcuName = prompt("Enter MCU name/label (e.g. ESP32-S3, nRF52840, RP2040):");
+      if (!mcuName || !mcuName.trim()) return;
+
+      const mcuId = 'mcu_' + Date.now();
+      activeState.mcuList.push({ id: mcuId, label: mcuName.trim() });
+
+      for (let i = 1; i <= 75; i++) {
+        if (!activeState.pins[i].mcus) activeState.pins[i].mcus = {};
+        activeState.pins[i].mcus[mcuId] = { pin: '', funcs: [] };
+      }
+
+      render();
+    }
+
+    function deleteMCU(mcuId, mcuLabel) {
+      if (activeState.mcuList.length <= 1) {
+        alert("You must keep at least one MCU column.");
+        return;
+      }
+      if (confirm(`Remove MCU column "${mcuLabel}" and clear its assigned pins?`)) {
+        activeState.mcuList = activeState.mcuList.filter(m => m.id !== mcuId);
+        for (let i = 1; i <= 75; i++) {
+          if (activeState.pins[i].mcus) {
+            delete activeState.pins[i].mcus[mcuId];
+          }
+        }
+        render();
+      }
+    }
+
+    function switchSide(side) {
+      currentSide = side;
+      document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
+        btn.classList.toggle('active', (side === 'top' && idx === 0) || (side === 'bottom' && idx === 1));
+      });
+      render();
+    }
+
+    // Live Duplicate Pin Counter
+    function getDuplicateCounts() {
+      const counts = {};
+      activeState.mcuList.forEach(m => counts[m.id] = {});
+
+      for (let i = 1; i <= 75; i++) {
+        const pinObj = activeState.pins[i];
+        if (pinObj.mcus) {
+          activeState.mcuList.forEach(m => {
+            const entry = pinObj.mcus[m.id];
+            const val = ((entry && entry.pin) || '').trim().toUpperCase();
+            if (val && val !== '-') {
+              counts[m.id][val] = (counts[m.id][val] || 0) + 1;
+            }
+          });
+        }
+      }
+      return counts;
+    }
+
+    function render() {
+      const badge = document.getElementById('profileBadge');
+      if (badge) {
+        badge.textContent = `Profile: ${activeState.profileName || 'Default'}`;
+      }
+      const thead = document.getElementById('tableHead');
+      const tbody = document.getElementById('tableBody');
+      const mcuCounts = getDuplicateCounts();
+
+      let headerHTML = `
+        <tr>
+          <th style="width: 38px;">#<div class="resizer"></div></th>
+          <th style="width: 70px;">Edge<div class="resizer"></div></th>
+          <th style="width: 100px;">Signal Type<div class="resizer"></div></th>
+      `;
+
+      activeState.mcuList.forEach(m => {
+        headerHTML += `
+          <th style="width: 290px;">
+            <div class="th-mcu-header">
+              <span>${escapeHtml(m.label)} [Pin & Alternate Functions]</span>
+              <button class="btn-del-mcu" title="Remove MCU" onclick="deleteMCU('${m.id}', '${escapeHtml(m.label)}')">✕</button>
+            </div>
+            <div class="resizer"></div>
+          </th>
+        `;
+      });
+
+      headerHTML += `
+          <th style="width: 95px;">Status<div class="resizer"></div></th>
+          <th style="width: 48px; text-align: center;">Conflict<div class="resizer"></div></th>
+          <th style="width: 170px;">Remarks & Notes<div class="resizer"></div></th>
+        </tr>
+      `;
+      thead.innerHTML = headerHTML;
+
+      tbody.innerHTML = '';
+      const start = currentSide === 'top' ? 1 : 2;
+
+      for (let i = start; i <= 75; i += 2) {
+        const row = activeState.pins[i];
+        const isNotch = NOTCH_PINS.includes(i);
+        const tr = document.createElement('tr');
+        if (isNotch) tr.className = 'notch-row';
+
+        let rowHasConflict = false;
+        let anyMCUMapped = false;
+
+        let mcuCellsHTML = '';
+        activeState.mcuList.forEach(m => {
+          if (!row.mcus) row.mcus = {};
+          if (!row.mcus[m.id]) row.mcus[m.id] = { pin: '', funcs: [] };
+
+          const mcuData = row.mcus[m.id];
+          const pinVal = (mcuData.pin || '').trim().toUpperCase();
+          if (pinVal && pinVal !== '-') anyMCUMapped = true;
+          const isDup = pinVal && (mcuCounts[m.id][pinVal] > 1);
+          if (isDup) rowHasConflict = true;
+
+          // Function pills for this specific MCU
+          let pillsHTML = '';
+          (mcuData.funcs || []).forEach((fn, fIdx) => {
+            pillsHTML += `
+              <span class="func-pill ${getPillClass(fn)}">
+                ${escapeHtml(fn)}
+                <span class="pill-del" title="Remove" onclick="removeMcuFunction(${i}, '${m.id}', ${fIdx})">&times;</span>
+              </span>
+            `;
+          });
+
+          mcuCellsHTML += `
+            <td>
+              ${isNotch ? '<span class="func-notch">KEY NOTCH</span>' : `
+                <div class="mcu-cell-container">
+                  <input type="text" 
+                         class="pin-input ${isDup ? 'duplicate-conflict' : ''}" 
+                         value="${escapeHtml(mcuData.pin || '')}" 
+                         oninput="updateMcuPin(${i}, '${m.id}', this.value)" 
+                         placeholder="Pin">
+                  
+                  <div class="func-pill-box">
+                    ${pillsHTML}
+                    <select class="func-add-select" onchange="addMcuFunction(${i}, '${m.id}', this.value); this.selectedIndex=0;">
+                      <option value="">+ Add</option>
+                      ${Object.entries(FUNCTION_GROUPS).map(([grp, fns]) => `
+                        <optgroup label="${grp}">
+                          ${fns.map(f => `<option value="${f}">${f}</option>`).join('')}
+                        </optgroup>
+                      `).join('')}
+                      <option value="__custom__">✏️ Custom...</option>
+                    </select>
+                  </div>
+                </div>
+              `}
+            </td>
+          `;
+        });
+
+        const statusTagClass = 'tag-status-' + (row.status || '').replace(/\s+/g, '');
+
+        tr.innerHTML = `
+          <td><strong>${i}</strong></td>
+          <td><code>${row.name}</code></td>
+          <td>
+            <select class="tag-select tag-${row.signal || 'none'}" onchange="updateRowField(${i}, 'signal', this.value)">
+              ${SIGNAL_TYPES.map(t => `<option value="${t}" ${row.signal === t ? 'selected' : ''}>${t || 'None'}</option>`).join('')}
+            </select>
+          </td>
+          ${mcuCellsHTML}
+          <td>
+            <select class="tag-select ${statusTagClass}" onchange="updateRowField(${i}, 'status', this.value)">
+              ${STATUS_TYPES.map(s => `<option value="${s}" ${row.status === s ? 'selected' : ''}>${s}</option>`).join('')}
+            </select>
+          </td>
+          <td style="text-align: center;">
+            ${isNotch ? '<span class="conflict-pill notch">—</span>' :
+              rowHasConflict ? '<span class="conflict-pill err" title="Duplicate GPIO Assigned!">⚠️ Dup</span>' :
+              anyMCUMapped ? '<span class="conflict-pill ok">OK</span>' : '<span class="conflict-pill notch">—</span>'}
+          </td>
+          <td>
+            ${isNotch ? 'Cutout - No Pin' : `<input type="text" class="text-note" value="${escapeHtml(row.remarkNotes || '')}" oninput="updateRowField(${i}, 'remarkNotes', this.value)" placeholder="Remarks / routing notes...">`}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      }
+
+      initResizableColumns();
+    }
+
+    // --- Per-MCU Data Updaters ---
+    function updateMcuPin(pin, mcuId, val) {
+      if (!activeState.pins[pin].mcus[mcuId]) activeState.pins[pin].mcus[mcuId] = { pin: '', funcs: [] };
+      activeState.pins[pin].mcus[mcuId].pin = val;
+
+      const counts = getDuplicateCounts();
+      const inputs = document.querySelectorAll(`input.pin-input[oninput*="'${mcuId}'"]`);
+      inputs.forEach(input => {
+        const cleanVal = input.value.trim().toUpperCase();
+        if (cleanVal && counts[mcuId][cleanVal] > 1) {
+          input.classList.add('duplicate-conflict');
+        } else {
+          input.classList.remove('duplicate-conflict');
+        }
+      });
+    }
+
+function addMcuFunction(pin, mcuId, val) {
+      if (!val) return;
+      let target = activeState.pins[pin].mcus[mcuId];
+      if (!target.funcs) target.funcs = [];
+
+      let funcToAdd = val;
+      if (val === '__custom__') {
+        const custom = prompt("Enter custom function name (e.g. I2S_SD, ETH_RXD0):");
+        if (!custom || !custom.trim()) return;
+        funcToAdd = custom.trim().toUpperCase();
+      }
+
+      if (!target.funcs.includes(funcToAdd)) {
+        target.funcs.push(funcToAdd);
+
+        // Auto-update Signal Type if it is currently empty, None, or default
+        const detectedType = getAutoSignalType(funcToAdd);
+        if (detectedType) {
+          activeState.pins[pin].signal = detectedType;
+        }
+
+        // Auto-update Status
+        if (funcToAdd === "N.C." || funcToAdd === "N.A.") {
+          activeState.pins[pin].status = "NC";
+        } else if (activeState.pins[pin].status === "Pending") {
+          activeState.pins[pin].status = "Mapped";
+        }
+      }
+      render();
+    }
+
+    function removeMcuFunction(pin, mcuId, index) {
+      let target = activeState.pins[pin].mcus[mcuId];
+      if (target && target.funcs) {
+        target.funcs.splice(index, 1);
+      }
+
+      // Re-scan remaining functions across ALL MCUs on this pin to keep Signal Type accurate
+      let remainingFuncs = [];
+      activeState.mcuList.forEach(m => {
+        const mcuData = activeState.pins[pin].mcus && activeState.pins[pin].mcus[m.id];
+        if (mcuData && mcuData.funcs) {
+          remainingFuncs.push(...mcuData.funcs);
+        }
+      });
+
+      if (remainingFuncs.length === 0) {
+        activeState.pins[pin].signal = "";
+        activeState.pins[pin].status = "Pending";
+      } else {
+        // Re-detect from the latest remaining tag
+        const lastFunc = remainingFuncs[remainingFuncs.length - 1];
+        activeState.pins[pin].signal = getAutoSignalType(lastFunc);
+      }
+
+      render();
+    }
+
+    function updateRowField(pin, field, val) {
+      activeState.pins[pin][field] = val;
+      if (field === 'signal' || field === 'status') {
+        render();
+      }
+    }
+
+    function escapeHtml(text) {
+      return (text || '').replace(/"/g, '&quot;');
+    }
+
+    function resetTemplate() {
+      if (confirm("Reset the entire table to blank template?")) {
+        activeState = createDefaultState();
+        render();
+      }
+    }
+
+    function exportCSV() {
+      let headers = ["Pin", "Edge Name", "Side", "Signal Type"];
+      activeState.mcuList.forEach(m => {
+        headers.push(`${m.label} Pin`);
+        headers.push(`${m.label} Alternate Functions`);
+      });
+      headers.push("Status", "Remarks & Notes");
+
+      let csv = headers.map(h => `"${h}"`).join(",") + "\n";
+
+      for (let i = 1; i <= 75; i++) {
+        const r = activeState.pins[i];
+        let row = [r.pin, r.name, r.side, r.signal];
+        activeState.mcuList.forEach(m => {
+          const entry = (r.mcus && r.mcus[m.id]) || { pin: '', funcs: [] };
+          row.push(entry.pin || '');
+          row.push((entry.funcs || []).join(" / "));
+        });
+        row.push(r.status, r.remarkNotes || '');
+        csv += row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(",") + "\n";
+      }
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `${(activeState.profileName || 'M2_BKey').replace(/\s+/g, '_')}_Pin_Mapping.csv`;
+      a.click();
+    }
+
+    function initResizableColumns() {
+      const headers = document.querySelectorAll('th');
+      headers.forEach(th => {
+        const resizer = th.querySelector('.resizer');
+        if (!resizer) return;
+
+        let startX, startWidth;
+        resizer.onmousedown = function (e) {
+          startX = e.pageX;
+          startWidth = th.offsetWidth;
+          resizer.classList.add('resizing');
+
+          function onMouseMove(e) {
+            const newWidth = Math.max(35, startWidth + (e.pageX - startX));
+            th.style.width = newWidth + 'px';
+          }
+          function onMouseUp() {
+            resizer.classList.remove('resizing');
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
+          }
+          document.addEventListener('mousemove', onMouseMove);
+          document.addEventListener('mouseup', onMouseUp);
+          e.stopPropagation();
+        };
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>
