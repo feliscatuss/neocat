@@ -321,7 +321,7 @@
     </div>
     
     <div class="actions">
-      <input type="file" id="jsonFileInput" accept=".json" onchange="handleProfileFile(event)">
+<button class="btn-accent" onclick="loadPresetProfile('profiles/rp2350b-wifi.json')">⚡ RP2350B Wi-Fi</button>
       <button onclick="document.getElementById('jsonFileInput').click()">📂 Load Profile</button>
       <button class="btn-primary" onclick="saveProfile()">💾 Save Profile</button>
       <button class="btn-accent" onclick="promptAddMCU()">➕ Add MCU</button>
@@ -528,7 +528,22 @@
       }
       return counts;
     }
-
+async function loadPresetProfile(path) {
+      try {
+        const response = await fetch(path);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        const parsed = await response.json();
+        
+        if (parsed && parsed.pins && parsed.mcuList) {
+          activeState = parsed;
+          render();
+        } else {
+          alert("Profile file structure is missing required pin mapping keys.");
+        }
+      } catch (err) {
+        alert("Failed to load preset profile: " + err.message + "\nMake sure profiles/rp2350b-wifi.json exists.");
+      }
+    }
     function render() {
       const badge = document.getElementById('profileBadge');
       if (badge) {
