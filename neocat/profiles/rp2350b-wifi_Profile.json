@@ -1,0 +1,1077 @@
+{
+  "profileName": "rp2350b-wifi",
+  "mcuList": [
+    {
+      "id": "mcu_rp2350b",
+      "label": "RP2350B (MCU1)"
+    }
+  ],
+  "pins": {
+    "1": {
+      "pin": 1,
+      "name": "Top1",
+      "side": "top",
+      "signal": "GND",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "GND"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    },
+    "2": {
+      "pin": 2,
+      "name": "Bottom2",
+      "side": "bottom",
+      "signal": "Power",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "+3.3V"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    },
+    "3": {
+      "pin": 3,
+      "name": "Top3",
+      "side": "top",
+      "signal": "GND",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "GND"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    },
+    "4": {
+      "pin": 4,
+      "name": "Bottom4",
+      "side": "bottom",
+      "signal": "Power",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "+3.3V"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    },
+    "5": {
+      "pin": 5,
+      "name": "Top5",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "6": {
+      "pin": 6,
+      "name": "Bottom6",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "7": {
+      "pin": 7,
+      "name": "Top7",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "8": {
+      "pin": 8,
+      "name": "Bottom8",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "9": {
+      "pin": 9,
+      "name": "Top9",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "10": {
+      "pin": 10,
+      "name": "Bottom10",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "11": {
+      "pin": 11,
+      "name": "Top11",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "12": {
+      "pin": 12,
+      "name": "Bottom12",
+      "side": "bottom",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "13": {
+      "pin": 13,
+      "name": "Top13",
+      "side": "top",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "14": {
+      "pin": 14,
+      "name": "Bottom14",
+      "side": "bottom",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "15": {
+      "pin": 15,
+      "name": "Top15",
+      "side": "top",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "16": {
+      "pin": 16,
+      "name": "Bottom16",
+      "side": "bottom",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "17": {
+      "pin": 17,
+      "name": "Top17",
+      "side": "top",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "18": {
+      "pin": 18,
+      "name": "Bottom18",
+      "side": "bottom",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "19": {
+      "pin": 19,
+      "name": "Top19",
+      "side": "top",
+      "signal": "Notch",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "Mechanical B-Key Cutout",
+      "status": "Key Cutout"
+    },
+    "20": {
+      "pin": 20,
+      "name": "Bottom20",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "21": {
+      "pin": 21,
+      "name": "Top21",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "22": {
+      "pin": 22,
+      "name": "Bottom22",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "23": {
+      "pin": 23,
+      "name": "Top23",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "24": {
+      "pin": 24,
+      "name": "Bottom24",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "25": {
+      "pin": 25,
+      "name": "Top25",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "26": {
+      "pin": 26,
+      "name": "Bottom26",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "27": {
+      "pin": 27,
+      "name": "Top27",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "28": {
+      "pin": 28,
+      "name": "Bottom28",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "29": {
+      "pin": 29,
+      "name": "Top29",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "30": {
+      "pin": 30,
+      "name": "Bottom30",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "31": {
+      "pin": 31,
+      "name": "Top31",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "32": {
+      "pin": 32,
+      "name": "Bottom32",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "33": {
+      "pin": 33,
+      "name": "Top33",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "34": {
+      "pin": 34,
+      "name": "Bottom34",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "35": {
+      "pin": 35,
+      "name": "Top35",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "36": {
+      "pin": 36,
+      "name": "Bottom36",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "37": {
+      "pin": 37,
+      "name": "Top37",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "38": {
+      "pin": 38,
+      "name": "Bottom38",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "39": {
+      "pin": 39,
+      "name": "Top39",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "40": {
+      "pin": 40,
+      "name": "Bottom40",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "41": {
+      "pin": 41,
+      "name": "Top41",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "42": {
+      "pin": 42,
+      "name": "Bottom42",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "43": {
+      "pin": 43,
+      "name": "Top43",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "44": {
+      "pin": 44,
+      "name": "Bottom44",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "45": {
+      "pin": 45,
+      "name": "Top45",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "46": {
+      "pin": 46,
+      "name": "Bottom46",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "47": {
+      "pin": 47,
+      "name": "Top47",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "48": {
+      "pin": 48,
+      "name": "Bottom48",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "49": {
+      "pin": 49,
+      "name": "Top49",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "50": {
+      "pin": 50,
+      "name": "Bottom50",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "51": {
+      "pin": 51,
+      "name": "Top51",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "52": {
+      "pin": 52,
+      "name": "Bottom52",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "53": {
+      "pin": 53,
+      "name": "Top53",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "54": {
+      "pin": 54,
+      "name": "Bottom54",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "55": {
+      "pin": 55,
+      "name": "Top55",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "56": {
+      "pin": 56,
+      "name": "Bottom56",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "57": {
+      "pin": 57,
+      "name": "Top57",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "58": {
+      "pin": 58,
+      "name": "Bottom58",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "59": {
+      "pin": 59,
+      "name": "Top59",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "60": {
+      "pin": 60,
+      "name": "Bottom60",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "61": {
+      "pin": 61,
+      "name": "Top61",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "62": {
+      "pin": 62,
+      "name": "Bottom62",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "63": {
+      "pin": 63,
+      "name": "Top63",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "64": {
+      "pin": 64,
+      "name": "Bottom64",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "65": {
+      "pin": 65,
+      "name": "Top65",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "66": {
+      "pin": 66,
+      "name": "Bottom66",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "67": {
+      "pin": 67,
+      "name": "Top67",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "68": {
+      "pin": 68,
+      "name": "Bottom68",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "69": {
+      "pin": 69,
+      "name": "Top69",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "70": {
+      "pin": 70,
+      "name": "Bottom70",
+      "side": "bottom",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "71": {
+      "pin": 71,
+      "name": "Top71",
+      "side": "top",
+      "signal": "",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": []
+        }
+      },
+      "remarkNotes": "",
+      "status": "Pending"
+    },
+    "72": {
+      "pin": 72,
+      "name": "Bottom72",
+      "side": "bottom",
+      "signal": "Power",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "+3.3V"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    },
+    "73": {
+      "pin": 73,
+      "name": "Top73",
+      "side": "top",
+      "signal": "GND",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "GND"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    },
+    "74": {
+      "pin": 74,
+      "name": "Bottom74",
+      "side": "bottom",
+      "signal": "Power",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "+3.3V"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    },
+    "75": {
+      "pin": 75,
+      "name": "Top75",
+      "side": "top",
+      "signal": "GND",
+      "mcus": {
+        "mcu_rp2350b": {
+          "pin": "",
+          "funcs": [
+            "GND"
+          ]
+        }
+      },
+      "remarkNotes": "",
+      "status": "Mapped"
+    }
+  }
+}
