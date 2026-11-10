@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>M.2 B-Key Pin Mapping Matrix</title>
+  <title>M.2 B-Key Pin Mapping Matrix with Visual Pinout</title>
   <style>
     :root {
       --bg-base: #0c1017;
@@ -17,6 +17,9 @@
       --danger-bg: rgba(239, 68, 68, 0.2);
       --success: #10b981;
       --success-bg: rgba(16, 185, 129, 0.2);
+      --gold-pad: #d4af37;
+      --pcb-green: #0f3822;
+      --pcb-dark: #0a2416;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -76,6 +79,224 @@
     button.btn-accent:hover { background: #1d4ed8; }
 
     #jsonFileInput { display: none; }
+
+    /* ========================================================
+       VISUAL CONNECTOR / SOCKET DIAGRAM STYLING
+       ======================================================== */
+    .diagram-card {
+      background: var(--bg-panel);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .diagram-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .diagram-title {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .diagram-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .diagram-controls select {
+      background: #0d121a;
+      border: 1px solid #334155;
+      color: #38bdf8;
+      border-radius: 5px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      outline: none;
+    }
+
+    .diagram-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 11px;
+      color: var(--text-muted);
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      background: #0d121a;
+      border-radius: 6px;
+      border: 1px solid #1e293b;
+    }
+    .legend-item { display: inline-flex; align-items: center; gap: 5px; }
+    .legend-color { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+    .connector-viewport {
+      overflow-x: auto;
+      padding-bottom: 8px;
+    }
+
+    .pcb-board {
+      display: inline-flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, var(--pcb-green) 0%, var(--pcb-dark) 100%);
+      border: 2px solid #1f5135;
+      border-radius: 6px;
+      padding: 12px 14px;
+      position: relative;
+      user-select: none;
+      min-width: 1050px;
+    }
+
+    .pcb-row {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .pcb-side-label {
+      width: 70px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      flex-shrink: 0;
+    }
+
+    .pcb-pins-container {
+      display: flex;
+      gap: 3px;
+      align-items: stretch;
+      flex: 1;
+    }
+
+    .pcb-pin-pad {
+      width: 24px;
+      height: 48px;
+      border-radius: 3px 3px 1px 1px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      padding: 3px 1px;
+      cursor: pointer;
+      font-size: 9px;
+      font-weight: 700;
+      color: #cbd5e1;
+      position: relative;
+      transition: transform 0.1s, border-color 0.1s, box-shadow 0.1s;
+    }
+
+    .pcb-pin-pad:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+      border-color: #38bdf8 !important;
+      z-index: 5;
+    }
+
+    .pcb-row-bottom .pcb-pin-pad {
+      border-radius: 1px 1px 3px 3px;
+    }
+
+    .pcb-row-bottom .pcb-pin-pad:hover {
+      transform: translateY(2px);
+    }
+
+    .pcb-spacer {
+      height: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin: 4px 0;
+    }
+    .pcb-center-line {
+      height: 1px;
+      width: 100%;
+      background: #1b4930;
+    }
+
+    .pcb-notch-block {
+      background: #0c1017 !important;
+      border: 1px dashed #78350f !important;
+      color: #f59e0b !important;
+      cursor: not-allowed !important;
+      opacity: 0.7;
+    }
+    .pcb-notch-block:hover {
+      transform: none !important;
+      border-color: #78350f !important;
+    }
+
+    .pad-num { font-size: 9px; opacity: 0.85; }
+    .pad-lbl {
+      font-size: 8px;
+      font-family: monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 22px;
+      text-align: center;
+    }
+
+    /* Diagram Pin Color Classes */
+    .pad-gnd { background: #050505; border-color: #475569; color: #f8fafc; }
+    .pad-pwr { background: #991b1b; border-color: #ef4444; color: #fee2e2; }
+    .pad-digital { background: #065f46; border-color: #10b981; color: #d1fae5; }
+    .pad-analog { background: #047857; border-color: #34d399; color: #ecfdf5; }
+    .pad-highspeed { background: #064e3b; border-color: #22c55e; color: #f0fdf4; }
+    .pad-lowspeed { background: #0f766e; border-color: #14b8a6; color: #ccfbf1; }
+    .pad-ctrl { background: #374151; border-color: #64748b; color: #f3f4f6; }
+    .pad-debug { background: #15803d; border-color: #4ade80; color: #f0fdf4; }
+    .pad-conflict { background: #dc2626 !important; border-color: #fca5a5 !important; animation: pulse 1s infinite alternate; }
+
+    @keyframes pulse {
+      from { box-shadow: 0 0 2px #ef4444; }
+      to { box-shadow: 0 0 8px #ef4444; }
+    }
+
+    /* Floating Tooltip */
+    #diagramTooltip {
+      position: absolute;
+      display: none;
+      background: #0f172a;
+      border: 1px solid #38bdf8;
+      border-radius: 6px;
+      padding: 8px 12px;
+      color: #f8fafc;
+      font-size: 11.5px;
+      z-index: 999;
+      pointer-events: none;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+      max-width: 260px;
+    }
+    #diagramTooltip .tip-title { font-weight: 700; color: #38bdf8; margin-bottom: 4px; font-size: 12px; }
+    #diagramTooltip .tip-row { margin: 2px 0; color: #cbd5e1; }
+    #diagramTooltip .tip-tag { display: inline-block; padding: 1px 4px; border-radius: 3px; font-size: 10px; background: #1e293b; margin-top: 3px; }
+
+    /* Flash Highlight on table scroll */
+    @keyframes rowFlash {
+      0% { background: #1e3a8a; }
+      100% { background: transparent; }
+    }
+    .flash-highlight {
+      animation: rowFlash 1.5s ease-out;
+    }
 
     /* Tabs */
     .tabs { display: flex; gap: 6px; border-bottom: 1px solid var(--border-color); margin-bottom: 14px; }
@@ -321,7 +542,7 @@
     </div>
     
     <div class="actions">
-<button class="btn-accent" onclick="loadPresetProfile('profiles/rp2350b-wifi.json')">⚡ RP2350B Wi-Fi</button>
+      <input type="file" id="jsonFileInput" accept=".json" onchange="handleProfileFile(event)">
       <button onclick="document.getElementById('jsonFileInput').click()">📂 Load Profile</button>
       <button class="btn-primary" onclick="saveProfile()">💾 Save Profile</button>
       <button class="btn-accent" onclick="promptAddMCU()">➕ Add MCU</button>
@@ -330,6 +551,57 @@
     </div>
   </div>
 
+  <!-- INTERACTIVE M.2 VISUAL PINOUT DIAGRAM -->
+  <div class="diagram-card">
+    <div class="diagram-header">
+      <div class="diagram-title">
+        <span>🔌 Interactive M.2 B-Key Edge Connector Diagram</span>
+      </div>
+      <div class="diagram-controls">
+        <label for="diagramMcuSelect" style="font-size: 12px; color: var(--text-muted);">Blade / MCU Display:</label>
+        <select id="diagramMcuSelect" onchange="onDiagramMcuChange(this.value)"></select>
+      </div>
+    </div>
+
+    <div class="diagram-legend">
+      <span style="font-weight: 600; color: #f1f5f9; margin-right: 4px;">Legend:</span>
+      <span class="legend-item"><span class="legend-color" style="background:#050505; border:1px solid #475569;"></span> GND</span>
+      <span class="legend-item"><span class="legend-color" style="background:#991b1b;"></span> Power</span>
+      <span class="legend-item"><span class="legend-color" style="background:#065f46;"></span> Digital</span>
+      <span class="legend-item"><span class="legend-color" style="background:#064e3b;"></span> High-Speed</span>
+      <span class="legend-item"><span class="legend-color" style="background:#0f766e;"></span> Low-Speed</span>
+      <span class="legend-item"><span class="legend-color" style="background:#047857;"></span> Analog</span>
+      <span class="legend-item"><span class="legend-color" style="background:#374151;"></span> Control / Debug</span>
+      <span class="legend-item"><span class="legend-color" style="background:#78350f;"></span> B-Key Cutout</span>
+      <span class="legend-item"><span class="legend-color" style="background:#dc2626;"></span> Duplicate Conflict</span>
+      <span style="margin-left: auto; font-style: italic; color: #94a3b8;">* Click any pin pad to jump to table row</span>
+    </div>
+
+    <div class="connector-viewport">
+      <div class="pcb-board">
+        <!-- TOP SIDE: ODD PINS 1-75 -->
+        <div class="pcb-row pcb-row-top">
+          <div class="pcb-side-label">TOP (ODD)</div>
+          <div class="pcb-pins-container" id="topPinsDiagram"></div>
+        </div>
+
+        <div class="pcb-spacer">
+          <div class="pcb-center-line"></div>
+        </div>
+
+        <!-- BOTTOM SIDE: EVEN PINS 2-74 -->
+        <div class="pcb-row pcb-row-bottom">
+          <div class="pcb-side-label">BOT (EVEN)</div>
+          <div class="pcb-pins-container" id="bottomPinsDiagram"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLOATING TOOLTIP FOR PIN HOVER -->
+  <div id="diagramTooltip"></div>
+
+  <!-- TABLE SECTION -->
   <div class="tabs">
     <button class="tab-btn active" onclick="switchSide('top')">Top Side (Odd Pins 1–75)</button>
     <button class="tab-btn" onclick="switchSide('bottom')">Bottom Side (Even Pins 2–74)</button>
@@ -345,6 +617,7 @@
   <script>
     const NOTCH_PINS = [12, 13, 14, 15, 16, 17, 18, 19];
     let currentSide = 'top';
+    let selectedDiagramMcuId = 'mcu_rp2350b';
 
     const SIGNAL_TYPES = ["", "GND", "Power", "Digital", "Analog", "High-Speed", "Low-Speed", "Control", "Debug", "Notch"];
     const STATUS_TYPES = ["Pending", "Mapped", "Reserved", "NC", "Key Cutout"];
@@ -375,6 +648,7 @@
       if (fn.includes('SWD') || fn.includes('JTAG') || fn === 'SWO' || fn === 'RESET' || fn === 'BOOT' || fn === 'PWR_EN') return 'func-ctrl';
       return 'func-comm';
     }
+
     function getAutoSignalType(fn) {
       if (!fn) return '';
       if (fn === 'GND') return 'GND';
@@ -417,6 +691,11 @@
 
     let activeState = createDefaultState();
 
+    function onDiagramMcuChange(mcuId) {
+      selectedDiagramMcuId = mcuId;
+      renderDiagram();
+    }
+
     function saveProfile() {
       const currentName = activeState.profileName || "Blade_Profile";
       const name = prompt("Enter a name for this profile:", currentName);
@@ -442,7 +721,6 @@
         try {
           const parsed = JSON.parse(e.target.result);
           if (parsed && parsed.pins && parsed.mcuList) {
-            // Backward-compatibility: upgrade flat string pin definitions if loading older profile
             for (let i = 1; i <= 75; i++) {
               const p = parsed.pins[i];
               if (p && p.mcus) {
@@ -457,6 +735,9 @@
               }
             }
             activeState = parsed;
+            if (!activeState.mcuList.find(m => m.id === selectedDiagramMcuId)) {
+              selectedDiagramMcuId = activeState.mcuList[0] ? activeState.mcuList[0].id : '';
+            }
             render();
             alert(`✅ Loaded Profile: "${activeState.profileName || 'Default'}"`);
           } else {
@@ -482,6 +763,7 @@
         activeState.pins[i].mcus[mcuId] = { pin: '', funcs: [] };
       }
 
+      selectedDiagramMcuId = mcuId;
       render();
     }
 
@@ -497,6 +779,9 @@
             delete activeState.pins[i].mcus[mcuId];
           }
         }
+        if (selectedDiagramMcuId === mcuId) {
+          selectedDiagramMcuId = activeState.mcuList[0].id;
+        }
         render();
       }
     }
@@ -506,10 +791,9 @@
       document.querySelectorAll('.tab-btn').forEach((btn, idx) => {
         btn.classList.toggle('active', (side === 'top' && idx === 0) || (side === 'bottom' && idx === 1));
       });
-      render();
+      renderTable();
     }
 
-    // Live Duplicate Pin Counter
     function getDuplicateCounts() {
       const counts = {};
       activeState.mcuList.forEach(m => counts[m.id] = {});
@@ -528,23 +812,150 @@
       }
       return counts;
     }
-async function loadPresetProfile(path) {
-      try {
-        const response = await fetch(path);
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        const parsed = await response.json();
-        
-        if (parsed && parsed.pins && parsed.mcuList) {
-          activeState = parsed;
-          render();
-        } else {
-          alert("Profile file structure is missing required pin mapping keys.");
-        }
-      } catch (err) {
-        alert("Failed to load preset profile: " + err.message + "\nMake sure profiles/rp2350b-wifi.json exists.");
+
+    // Jump from diagram pad click to table row
+    function focusTableRow(pinNumber) {
+      const targetSide = pinNumber % 2 === 1 ? 'top' : 'bottom';
+      if (currentSide !== targetSide) {
+        switchSide(targetSide);
       }
+      setTimeout(() => {
+        const row = document.getElementById(`pin-row-${pinNumber}`);
+        if (row) {
+          row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          row.classList.remove('flash-highlight');
+          void row.offsetWidth; // trigger reflow
+          row.classList.add('flash-highlight');
+        }
+      }, 50);
     }
-    function render() {
+
+    // ========================================================
+    // RENDER VISUAL CONNECTOR DIAGRAM
+    // ========================================================
+    function renderDiagram() {
+      const topContainer = document.getElementById('topPinsDiagram');
+      const bottomContainer = document.getElementById('bottomPinsDiagram');
+      const mcuSelect = document.getElementById('diagramMcuSelect');
+      const counts = getDuplicateCounts();
+
+      // Populate MCU Selector dropdown
+      mcuSelect.innerHTML = activeState.mcuList.map(m => `
+        <option value="${m.id}" ${m.id === selectedDiagramMcuId ? 'selected' : ''}>${escapeHtml(m.label)}</option>
+      `).join('');
+
+      let topHTML = '';
+      let bottomHTML = '';
+
+      // Render Top Pins (1, 3, 5, ... 75)
+      for (let pin = 1; pin <= 75; pin += 2) {
+        topHTML += buildPinPadHTML(pin, counts);
+      }
+
+      // Render Bottom Pins (2, 4, 6, ... 74)
+      for (let pin = 2; pin <= 74; pin += 2) {
+        bottomHTML += buildPinPadHTML(pin, counts);
+      }
+
+      topContainer.innerHTML = topHTML;
+      bottomContainer.innerHTML = bottomHTML;
+
+      setupDiagramTooltips();
+    }
+
+    function buildPinPadHTML(pin, counts) {
+      const isNotch = NOTCH_PINS.includes(pin);
+      const row = activeState.pins[pin];
+      const mcuData = (row.mcus && row.mcus[selectedDiagramMcuId]) || { pin: '', funcs: [] };
+      const pinVal = (mcuData.pin || '').trim().toUpperCase();
+      const isDup = pinVal && counts[selectedDiagramMcuId] && (counts[selectedDiagramMcuId][pinVal] > 1);
+
+      if (isNotch) {
+        return `
+          <div class="pcb-pin-pad pcb-notch-block" data-pin="${pin}" title="Pin ${pin}: Key Notch">
+            <span class="pad-num">${pin}</span>
+            <span class="pad-lbl">✕</span>
+          </div>
+        `;
+      }
+
+      // Determine color styling based on status & signal
+      let colorClass = '';
+      if (isDup) {
+        colorClass = 'pad-conflict';
+      } else {
+        const sig = (row.signal || '').toLowerCase();
+        if (sig === 'gnd') colorClass = 'pad-gnd';
+        else if (sig === 'power') colorClass = 'pad-pwr';
+        else if (sig === 'digital') colorClass = 'pad-digital';
+        else if (sig === 'analog') colorClass = 'pad-analog';
+        else if (sig === 'high-speed') colorClass = 'pad-highspeed';
+        else if (sig === 'low-speed') colorClass = 'pad-lowspeed';
+        else if (sig === 'control') colorClass = 'pad-ctrl';
+        else if (sig === 'debug') colorClass = 'pad-debug';
+      }
+
+      // Short label to fit inside the finger pad
+      let displayLabel = pinVal || (mcuData.funcs && mcuData.funcs[0]) || '';
+      if (displayLabel.length > 5) displayLabel = displayLabel.substring(0, 4) + '..';
+
+      return `
+        <div class="pcb-pin-pad ${colorClass}" 
+             data-pin="${pin}" 
+             onclick="focusTableRow(${pin})">
+          <span class="pad-num">${pin}</span>
+          <span class="pad-lbl">${escapeHtml(displayLabel)}</span>
+        </div>
+      `;
+    }
+
+    function setupDiagramTooltips() {
+      const tooltip = document.getElementById('diagramTooltip');
+      const pads = document.querySelectorAll('.pcb-pin-pad');
+
+      pads.forEach(pad => {
+        pad.addEventListener('mouseenter', (e) => {
+          const pin = parseInt(pad.getAttribute('data-pin'), 10);
+          const row = activeState.pins[pin];
+          const isNotch = NOTCH_PINS.includes(pin);
+          const currentMcu = activeState.mcuList.find(m => m.id === selectedDiagramMcuId);
+          const mcuLabel = currentMcu ? currentMcu.label : 'MCU';
+          const mcuData = (row.mcus && row.mcus[selectedDiagramMcuId]) || { pin: '', funcs: [] };
+
+          let content = `<div class="tip-title">Pin ${pin} (${row.name})</div>`;
+          if (isNotch) {
+            content += `<div class="tip-row" style="color:#f59e0b;">Mechanical Key Notch (Cutout)</div>`;
+          } else {
+            content += `<div class="tip-row"><strong>${escapeHtml(mcuLabel)}:</strong> ${escapeHtml(mcuData.pin || 'Unassigned')}</div>`;
+            content += `<div class="tip-row"><strong>Signal:</strong> ${escapeHtml(row.signal || 'None')}</div>`;
+            content += `<div class="tip-row"><strong>Status:</strong> ${escapeHtml(row.status || 'Pending')}</div>`;
+            if (mcuData.funcs && mcuData.funcs.length > 0) {
+              content += `<div class="tip-row"><strong>Functions:</strong><br>${mcuData.funcs.map(f => `<span class="tip-tag">${escapeHtml(f)}</span>`).join(' ')}</div>`;
+            }
+            if (row.remarkNotes) {
+              content += `<div class="tip-row" style="font-size:10.5px; opacity:0.8; margin-top:4px;"><em>${escapeHtml(row.remarkNotes)}</em></div>`;
+            }
+          }
+
+          tooltip.innerHTML = content;
+          tooltip.style.display = 'block';
+        });
+
+        pad.addEventListener('mousemove', (e) => {
+          tooltip.style.left = (e.pageX + 12) + 'px';
+          tooltip.style.top = (e.pageY + 12) + 'px';
+        });
+
+        pad.addEventListener('mouseleave', () => {
+          tooltip.style.display = 'none';
+        });
+      });
+    }
+
+    // ========================================================
+    // RENDER TABLE
+    // ========================================================
+    function renderTable() {
       const badge = document.getElementById('profileBadge');
       if (badge) {
         badge.textContent = `Profile: ${activeState.profileName || 'Default'}`;
@@ -587,6 +998,7 @@ async function loadPresetProfile(path) {
         const row = activeState.pins[i];
         const isNotch = NOTCH_PINS.includes(i);
         const tr = document.createElement('tr');
+        tr.id = `pin-row-${i}`;
         if (isNotch) tr.className = 'notch-row';
 
         let rowHasConflict = false;
@@ -603,7 +1015,6 @@ async function loadPresetProfile(path) {
           const isDup = pinVal && (mcuCounts[m.id][pinVal] > 1);
           if (isDup) rowHasConflict = true;
 
-          // Function pills for this specific MCU
           let pillsHTML = '';
           (mcuData.funcs || []).forEach((fn, fIdx) => {
             pillsHTML += `
@@ -673,6 +1084,11 @@ async function loadPresetProfile(path) {
       initResizableColumns();
     }
 
+    function render() {
+      renderDiagram();
+      renderTable();
+    }
+
     // --- Per-MCU Data Updaters ---
     function updateMcuPin(pin, mcuId, val) {
       if (!activeState.pins[pin].mcus[mcuId]) activeState.pins[pin].mcus[mcuId] = { pin: '', funcs: [] };
@@ -688,9 +1104,11 @@ async function loadPresetProfile(path) {
           input.classList.remove('duplicate-conflict');
         }
       });
+      // Live sync to connector diagram
+      renderDiagram();
     }
 
-function addMcuFunction(pin, mcuId, val) {
+    function addMcuFunction(pin, mcuId, val) {
       if (!val) return;
       let target = activeState.pins[pin].mcus[mcuId];
       if (!target.funcs) target.funcs = [];
@@ -705,13 +1123,11 @@ function addMcuFunction(pin, mcuId, val) {
       if (!target.funcs.includes(funcToAdd)) {
         target.funcs.push(funcToAdd);
 
-        // Auto-update Signal Type if it is currently empty, None, or default
         const detectedType = getAutoSignalType(funcToAdd);
         if (detectedType) {
           activeState.pins[pin].signal = detectedType;
         }
 
-        // Auto-update Status
         if (funcToAdd === "N.C." || funcToAdd === "N.A.") {
           activeState.pins[pin].status = "NC";
         } else if (activeState.pins[pin].status === "Pending") {
@@ -727,7 +1143,6 @@ function addMcuFunction(pin, mcuId, val) {
         target.funcs.splice(index, 1);
       }
 
-      // Re-scan remaining functions across ALL MCUs on this pin to keep Signal Type accurate
       let remainingFuncs = [];
       activeState.mcuList.forEach(m => {
         const mcuData = activeState.pins[pin].mcus && activeState.pins[pin].mcus[m.id];
@@ -740,7 +1155,6 @@ function addMcuFunction(pin, mcuId, val) {
         activeState.pins[pin].signal = "";
         activeState.pins[pin].status = "Pending";
       } else {
-        // Re-detect from the latest remaining tag
         const lastFunc = remainingFuncs[remainingFuncs.length - 1];
         activeState.pins[pin].signal = getAutoSignalType(lastFunc);
       }
@@ -762,6 +1176,7 @@ function addMcuFunction(pin, mcuId, val) {
     function resetTemplate() {
       if (confirm("Reset the entire table to blank template?")) {
         activeState = createDefaultState();
+        selectedDiagramMcuId = activeState.mcuList[0].id;
         render();
       }
     }
